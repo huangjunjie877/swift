@@ -14,7 +14,7 @@ from packaging import version
 from peft.import_utils import (is_auto_gptq_available, is_bnb_4bit_available,
                                is_bnb_available)
 from peft.utils import get_auto_gptq_quant_linear, get_quantization_config
-
+import peft
 from swift import get_logger
 from ..utils.torch_utils import find_sub_module
 from .utils import ActivationMixin, SwiftAdapter, SwiftConfig, SwiftOutput
@@ -37,7 +37,7 @@ class LinearWrapper:
 
 if is_bnb_available():
     import bitsandbytes as bnb
-
+    import peft
     from peft.tuners.lora import Linear8bitLt as _Linear8bitLt
 
     class Linear8bitLt(ActivationMixin, _Linear8bitLt):
@@ -102,7 +102,7 @@ if is_bnb_4bit_available():
 
 if is_auto_gptq_available():
     from peft.tuners.lora import QuantLinear as _QuantLinear
-
+    import peft
     class QuantLinear(ActivationMixin, _QuantLinear):
 
         def __init__(
